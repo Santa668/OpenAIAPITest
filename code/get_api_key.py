@@ -2,23 +2,34 @@ import json
 from base64 import b64decode, b64encode
 from cryptography.fernet import Fernet
 import os
+#import openai_secret_manager
 
 
 CONFIG_FILE = "config.json"
 
+# load the secrets
+#assert "openai" in openai_secret_manager.#ena apip list#
+# secrets = openai_secret_manager.get_secret("openai")
+
+# set environment variable for open# apip list#os.environ["OPENAI_API_KEY"] = secrets["api_key"]
+
 
 def get_api_key():
     """
-    Retrieves the OpenAI API key from the configuration file.
+    Retrieves the OpenAI API key from the environment variables.
     """
-    config = read_config()
-    api_key = config.get("api_key")
+    api_key = os.environ.get("OPENAI_API_KEY")
     if not api_key:
-        api_key = prompt_api_key()
-        config["api_key"] = encrypt(api_key)
-        write_config(config)
-    else:
-        api_key = decrypt(api_key)
+        config = read_config()
+        api_key = config.get("api_key")
+        if not api_key:
+            api_key = prompt_api_key()
+            os.environ["OPENAI_API_KEY"] = api_key
+            config["api_key"] = encrypt(api_key)
+            write_config(config)
+        else:
+            api_key = decrypt(api_key)
+            os.environ["OPENAI_API_KEY"] = api_key
     return api_key
 
 
