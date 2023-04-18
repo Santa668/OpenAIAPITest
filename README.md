@@ -75,3 +75,5 @@ This Technical Software Spec outlines a program to allow users to send API calls
 Before building the project, we need to install the OpenAI API library. Let's install it using pip:
 
 pip install openai
+
+When you run this program, it will open a GUI window with a ComboBox to select an OpenAI API model, a Text field to input data or an image, and a Submit button. When you click the Submit button, the program will send a request to the OpenAI API, and the response will be displayed in another Text field below. If there is an error, it will be displayed in a message box.
